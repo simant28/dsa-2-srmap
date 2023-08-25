@@ -6,11 +6,11 @@ struct Node {
     struct Node* next;
 };
 
-void insert(struct Node** head, int data) {
+void insert(struct Node* head, int data) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     newNode->data = data;
-    newNode->next = *head;
-    *head = newNode;
+    newNode->next = head;
+    head = newNode;
 }
 
 struct Node* addLists(struct Node* list1, struct Node* list2) {
@@ -65,14 +65,15 @@ void printList(struct Node* head) {
 }
 
 int main() {
-    struct Node* num1 = NULL;
-    struct Node* num2 = NULL;
+    struct Node *num1 = NULL;
+    struct Node *num2 = NULL;
 
     // Add code here to populate the linked lists 'num1' and 'num2' with digits of the big numbers
 
-    struct Node* sum = addLists(num1, num2);
+    struct Node *sum = addLists(num1, num2);
 
     printf("Sum of the two numbers: ");
     printList(sum);
 
     return 0;
+}
