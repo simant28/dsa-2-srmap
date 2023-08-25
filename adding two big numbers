@@ -68,7 +68,6 @@ int main() {
     struct Node *num1 = NULL;
     struct Node *num2 = NULL;
 
-    // Add code here to populate the linked lists 'num1' and 'num2' with digits of the big numbers
 
     struct Node *sum = addLists(num1, num2);
 
