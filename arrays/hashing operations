@@ -1,0 +1,142 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <time.h>
+
+#define MAX_TABLE_SIZE 1000
+
+// Define an array to store keys and a boolean array to track occupancy.
+int table[MAX_TABLE_SIZE];
+bool occupied[MAX_TABLE_SIZE];
+int size = 0;
+
+// Define a hash function to map keys to indices in the table.
+int hash(int key) {
+    return abs(key) % MAX_TABLE_SIZE;
+}
+
+// Function to insert a key into the table.
+bool insert(int key) {
+    if (size >= MAX_TABLE_SIZE)
+        return false;
+
+    int index = hash(key);
+
+    // Handle collisions using linear probing.
+    while (occupied[index]) {
+        if (table[index] == key)
+            return false; // Key already exists.
+        index = (index + 1) % MAX_TABLE_SIZE;
+    }
+
+    table[index] = key;
+    occupied[index] = true;
+    size++;
+    return true;
+}
+
+// Function to remove a key from the table.
+bool remove_key(int key) {
+    int index = hash(key);
+
+    for (int i = 0; i < MAX_TABLE_SIZE; i++) {
+        if (!occupied[index])
+            return false; // Key not found.
+
+        if (table[index] == key) {
+            occupied[index] = false;
+            size--;
+            return true; // Key removed successfully.
+        }
+
+        index = (index + 1) % MAX_TABLE_SIZE;
+    }
+
+    return false; // Key not found.
+}
+
+// Function to search for a key in the table.
+bool search_key(int key) {
+    int index = hash(key);
+
+    for (int i = 0; i < MAX_TABLE_SIZE; i++) {
+        if (!occupied[index])
+            return false; // Key not found.
+
+        if (table[index] == key)
+            return true; // Key found.
+
+        index = (index + 1) % MAX_TABLE_SIZE;
+    }
+
+    return false; // Key not found.
+}
+
+// Function to get a random key from the table.
+int get_random_key() {
+    if (size == 0)
+        return -1;
+
+    int random_index = rand() % size;
+    return table[random_index];
+}
+
+int main() {
+    srand((unsigned int)time(NULL));
+    int choice, key;
+
+    while (1) {
+        // Display menu options.
+        printf("1. Insert Key\n");
+        printf("2. Remove Key\n");
+        printf("3. Search Key\n");
+        printf("4. Get Random Key\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter a key to insert: ");
+                scanf("%d", &key);
+                if (insert(key))
+                    printf("Key %d inserted successfully.\n", key);
+                else
+                    printf("Key %d already exists or maximum table size reached.\n", key);
+                break;
+            case 2:
+                printf("Enter a key to remove: ");
+                scanf("%d", &key);
+                if (remove_key(key))
+                    printf("Key %d removed successfully.\n", key);
+                else
+                    printf("Key %d not found.\n", key);
+                break;
+            case 3:
+                printf("Enter a key to search: ");
+                scanf("%d", &key);
+                if (search_key(key))
+                    printf("Key %d is present.\n", key);
+                else
+                    printf("Key %d is not present.\n", key);
+                break;
+            case 4:
+                key = get_random_key();
+                if (key != -1)
+                    printf("Random key: %d\n", key);
+                else
+                    printf("The table is empty.\n");
+                break;
+            case 5:
+                exit(0); // Exit the program.
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+
+    return 0;
+}
+
+
+
+//by Simant Mishra
