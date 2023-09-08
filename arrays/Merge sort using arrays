@@ -1,0 +1,65 @@
+#include<stdio.h>
+    // Merge two sorted subarrays into one sorted array
+    void merge(int arr[],int arrleft[],int arrright[],int leftsize,int rightsize){
+    int i=0,j=0,k=0;
+    while(i<leftsize && j<rightsize){
+        if(arrleft[i]<arrright[j]){
+            arr[k++]=arrleft[i++];
+        }
+        else {
+            arr[k++] = arrright[j++];
+        }
+    }
+        while(i<leftsize) {
+            arr[k++] = arrleft[i++];
+        }
+        while(j<rightsize) {
+            arr[k++] = arrright[j++];
+        }
+}
+  //sorting of arrays through division
+   void mergesort(int a[],int size){
+    if(size<=1){
+        return;
+    }
+    int mid;
+    mid=size/2;
+    int left[mid];
+    int right[size-mid];
+    for(int i=0;i<mid;i++){
+        left[i]=a[i];
+    }
+    for(int j=mid;j<size;j++){
+        right[j-mid]=a[j];
+    }
+    mergesort(left,mid);
+    mergesort(right,size-mid);
+    merge(a,left,right,mid,size-mid);
+
+}
+//main function
+int main(){
+    int a[100];
+    printf("enter number of elements:");
+    int n;
+    scanf("%d",&n);
+    printf("enter elements:");
+    for(int i=0;i<n;i++){
+        scanf("%d",&a[i]);
+    }
+    printf("original array:\n");
+    for(int i=0;i<n;i++){
+        printf("%d ",a[i]);
+    }
+    printf("\n");
+
+    mergesort(a,n);
+    printf("sorted array:\n");
+    for(int i=0;i<n;i++){
+        printf("%d ",a[i]);
+    }
+    printf("\n");
+    return 0;
+
+}
+//by Simant Mishra
