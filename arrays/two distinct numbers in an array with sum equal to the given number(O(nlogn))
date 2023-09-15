@@ -1,0 +1,76 @@
+#include <stdio.h>
+
+void merge(int arr[], int arrleft[], int arrright[], int lsize, int rsize) {
+    int i = 0, k = 0, j = 0;
+    while (i < lsize && j < rsize) {
+        if (arrleft[i] < arrright[j]) {
+            arr[k++] = arrleft[i++];
+        } else {
+            arr[k++] = arrright[j++];
+        }
+    }
+    while (i < lsize) {
+        arr[k++] = arrleft[i++];
+    }
+    while (j < rsize) {
+        arr[k++] = arrright[j++];
+    }
+}
+
+void mergesort(int a[], int size) {
+    if (size < 2) {
+        return;
+    }
+    int i;
+    int mid = size / 2;
+    int left[mid];
+    int right[size - mid];
+    for (i = 0; i < mid; i++) {
+        left[i] = a[i];
+    }
+    for (int j = mid; j < size; j++) {
+        right[j - mid] = a[j];
+    }
+    mergesort(left, mid);
+    mergesort(right, size - mid);
+    merge(a, left, right, mid, size - mid);
+}
+
+int main() {
+    int a[100], flag = 0,p,q;
+    printf("Enter number of elements in array: ");
+    int n;
+    scanf("%d", &n);
+    printf("Enter elements of the array: ");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &a[i]);
+    }
+    printf("Enter number: ");
+    int x;
+    scanf("%d", &x);
+    mergesort(a, n);
+
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (a[i] + a[j] == x) {
+                flag = 1;
+                p=a[i];
+                q=a[j];
+                break;
+
+            }
+        }
+        if (flag == 1) {
+            break;
+        }
+    }
+
+    if (flag) {
+        printf("Yes, there exist two numbers %d and %d whose sum is equal to %d\n",p,q, x);
+    } else {
+        printf("NO\n");
+    }
+    return 0;
+}
+
+//BY SIMANT MISHRA
