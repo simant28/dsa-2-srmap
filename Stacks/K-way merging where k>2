@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+#define large_val 1000000
+// Function to merge k sorted arrays
+void merge_k_sorted_arrays(int *arrs[], int result[], int k, int size) {
+int indices[k]; // Keep track of the current index for each array
+// Initialize indices array
+for (int i = 0; i < k; i++) {
+indices[i] = 0;
+}
+// Merge until all arrays are exhausted
+int merged_idx = 0;
+while (1) {
+int min_val = large_val;
+int min_idx = -1;
+int found_val = 0;
+// Find the minimum value among the current elements of all arrays
+for (int j = 0; j < k; j++) {
+if (indices[j] < size && arrs[j][indices[j]] < min_val) {
+min_val = arrs[j][indices[j]];
+min_idx = j;
+found_val = 1;
+}
+}
+// If no minimum value is found, break the loop
+if (!found_val) {
+break;
+}
+// Update the result array and move the index of the array that had the minimum value
+result[merged_idx++] = min_val;
+indices[min_idx]++;
+}
+}
+int main() {
+// Input the number of arrays (k)
+
+int k;
+printf("Enter k: ");
+scanf("%d", &k);
+// Input the size of each array
+int size;
+printf("Enter size: ");
+scanf("%d", &size);
+// Allocate memory for arrays
+int *arrs[k];
+for (int i = 0; i < k; i++) {
+arrs[i] = (int *)malloc(size * sizeof(int));
+// Input elements for each array
+printf("Enter sorted elements for array %d: ", i + 1);
+for (int j = 0; j < size; j++) {
+scanf("%d", &arrs[i][j]);
+}
+}
+// Array to store the merged result
+int result[k * size];
+// Call the merge function
+merge_k_sorted_arrays(arrs, result, k, size);
+// Print the merged array
+printf("Merged Array: ");
+for (int i = 0; i < k * size; i++) {
+printf("%d ", result[i]);
+}
+// No need to free memory in this version
+return 0;
+}
+//BY SIMANT MISHRA
