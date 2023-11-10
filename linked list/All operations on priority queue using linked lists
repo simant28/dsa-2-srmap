@@ -1,0 +1,79 @@
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+struct Node {
+int data;
+int priority;
+struct Node* next;
+};
+struct Node* front = NULL;
+void enQueue(int data, int priority);
+void deQueue();
+int getFront();
+int main() {
+int choice, data, priority;
+do {
+printf(&quot;\nMenu:\n&quot;);
+printf(&quot;1. Enqueue\n&quot;);
+printf(&quot;2. Dequeue\n&quot;);
+printf(&quot;3. Get Front\n&quot;);
+printf(&quot;4. Exit\n&quot;);
+printf(&quot;Enter your choice: &quot;);
+scanf(&quot;%d&quot;, &amp;choice);
+switch (choice) {
+case 1:
+printf(&quot;Enter data: &quot;);
+scanf(&quot;%d&quot;, &amp;data);
+printf(&quot;Enter priority: &quot;);
+scanf(&quot;%d&quot;, &amp;priority);
+enQueue(data, priority);
+break;
+case 2:
+deQueue();
+break;
+case 3:
+printf(&quot;Front element: %d\n&quot;, getFront());
+break;
+case 4:
+exit(0);
+break;
+
+default:
+printf(&quot;Invalid choice!\n&quot;);
+break;
+}
+} while (choice != 4);
+return 0;
+}
+void enQueue(int data, int priority) {
+struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+newNode-&gt;data = data;
+newNode-&gt;priority = priority;
+if (front == NULL || priority &lt; front-&gt;priority) {
+newNode-&gt;next = front;
+front = newNode;
+} else {
+struct Node* temp = front;
+while (temp-&gt;next != NULL &amp;&amp; temp-&gt;next-&gt;priority &lt;= priority) {
+temp = temp-&gt;next;
+}
+newNode-&gt;next = temp-&gt;next;
+temp-&gt;next = newNode;
+}
+}
+void deQueue() {
+if (front == NULL) {
+printf(&quot;Queue is empty.\n&quot;);
+return;
+}
+struct Node* temp = front;
+front = front-&gt;next;
+free(temp);
+}
+int getFront() {
+if (front == NULL) {
+printf(&quot;Queue is empty.\n&quot;);
+return -1;
+}
+return front-&gt;data;
+}
+//BY SIMANT MISHRA
